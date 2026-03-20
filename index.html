@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>18 de Benjamin</title>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"></script>
+
+<style>
+body {
+  font-family: Arial;
+  background: #111;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+.gallery img {
+  width: 100px;
+  margin: 5px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎉 Los 18 de Benjamin</h1>
+<p>Subí tus fotos 📸</p>
+
+<input type="file" id="fileInput" multiple>
+
+<div class="gallery" id="gallery"></div>
+
+<script>
+const firebaseConfig = {
+  apiKey: "PEGÁ_ACÁ",
+  authDomain: "PEGÁ_ACÁ",
+  projectId: "PEGÁ_ACÁ",
+  storageBucket: "PEGÁ_ACÁ",
+};
+
+firebase.initializeApp(firebaseConfig);
+const storage = firebase.storage();
+
+const input = document.getElementById('fileInput');
+const gallery = document.getElementById('gallery');
+
+input.addEventListener('change', async () => {
+  const files = input.files;
+
+  for (let file of files) {
+    const ref = storage.ref('fotos/' + file.name);
+    await ref.put(file);
+
+    const url = await ref.getDownloadURL();
+
+    const img = document.createElement('img');
+    img.src = url;
+    gallery.appendChild(img);
+  }
+});
+</script>
+
+</body>
+</html>
